@@ -1,10 +1,18 @@
 import { Box, Text, Input, Button } from '@chakra-ui/react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-function Login() { 
+function Login({ loggedIn }) { 
 
     const [cpf, setCpf] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        alert(cpf + ' / ' + password);
+        loggedIn(true);
+        navigate('/dashboard');
+    };
 
     return(
         <Box width="100vw" 
@@ -55,7 +63,8 @@ function Login() {
                     <Input placeholder='Digite seu CPF' 
                            backgroundColor='#ffffff' 
                            marginBottom='3vh' 
-                           height='56px' 
+                           height='56px'
+                           type='number' 
                            value={cpf}
                            onChange={(e) => setCpf(e.target.value)} />
 
@@ -78,7 +87,7 @@ function Login() {
                             width='220px'
                             height='48px'
                             
-                            onClick={handleClick}>Entrar</Button>
+                            onClick={() => handleClick(cpf, password)}>Entrar</Button>
                 </Box>
             </Box>
 
@@ -92,12 +101,5 @@ function Login() {
 
     )
 }
-
-
-function handleClick() {
- 
-}
-
-
 
 export default Login
