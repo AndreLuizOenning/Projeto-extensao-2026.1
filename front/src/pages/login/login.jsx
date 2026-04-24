@@ -1,8 +1,10 @@
 import { Box, Text, Input, Button } from '@chakra-ui/react'
+import { useState } from 'react'
 
 function Login() { 
 
-    /* Aqui vai ficar a lógica do login */
+    const [cpf, setCpf] = useState('');
+    const [password, setPassword] = useState('');
 
     return(
         <Box width="100vw" 
@@ -46,9 +48,23 @@ function Login() {
                     </Text>
                 </Box>
 
-                <Box maxWidth='50%' alignSelf='center' marginBottom='1vh'>
-                    <Input placeholder='Digite seu CPF' backgroundColor='#ffffff' marginBottom='3vh' height='56px' ></Input>
-                    <Input placeholder='Senha' backgroundColor='#ffffff' type='password' height='56px'></Input>
+                <Box maxWidth='50%' 
+                     alignSelf='center' 
+                     marginBottom='1vh'>
+                        
+                    <Input placeholder='Digite seu CPF' 
+                           backgroundColor='#ffffff' 
+                           marginBottom='3vh' 
+                           height='56px' 
+                           value={cpf}
+                           onChange={(e) => setCpf(e.target.value)} />
+
+                    <Input placeholder='Senha' 
+                           backgroundColor='#ffffff' 
+                           type='password' 
+                           height='56px' 
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)} />
                 </Box>
 
                 <Box maxWidth='60%' alignSelf='center' display='flex' flexDirection='column' alignItems='center'>
@@ -60,7 +76,9 @@ function Login() {
                           fontWeight='semibold'>Ao entrar você está concordando com os termos de uso</Text>
                     <Button backgroundColor='#61B4DD'
                             width='220px'
-                            height='48px'>Entrar</Button>
+                            height='48px'
+                            
+                            onClick={handleClick}>Entrar</Button>
                 </Box>
             </Box>
 
@@ -70,10 +88,16 @@ function Login() {
                 <Box backgroundColor="#E0E7FF" height='200px' width='200px' borderTopLeftRadius="100%">
                 </Box>
             </Box>
-
         </Box> 
 
     )
 }
+
+
+function handleClick() {
+ 
+}
+
+
 
 export default Login
