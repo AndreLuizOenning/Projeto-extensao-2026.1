@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import Login from './login/login'
-import { Button } from '@chakra-ui/react'
-import './App.css'
+import Login from './pages/login/login'
 import { Routes, Route } from 'react-router-dom'
-import Validador from './componentesPjt/validador'
+import Autenticar from './features/autenticador/Autenticar'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,7 +10,7 @@ function App() {
     <>
       
       <Routes>
-        <Route path="*" element={<Validador caminho="/home  " />} />
+        <Route path="*" element={<Autenticar caminho="/home  " />} />
         <Route path="/home" element={<h1>Home</h1>} />
         <Route path="/login" element= {<Login/>}/>
         <Route path="/about" element={<h1>About</h1>} />
