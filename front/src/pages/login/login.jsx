@@ -1,4 +1,4 @@
-import { Box, Text, Input, Button } from '@chakra-ui/react'
+import { Box, Text, Input, Button, useToast } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -7,11 +7,31 @@ function Login({ loggedIn }) {
     const [cpf, setCpf] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const toast = useToast();
 
     const handleClick = () => {
-        alert(cpf + ' / ' + password);
-        loggedIn(true);
-        navigate('/dashboard');
+        // Remove pontuação para testar apenas os números ou permite exatamente o formato com máscara
+        const cleanCpf = cpf.replace(/\D/g, '');
+        
+        if ((cpf === '570.350.409-00' || cleanCpf === '57035040900') && password === '123') {
+            toast({
+                title: "Bem vindo!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+                position: "top"
+            });
+            loggedIn(true);
+            navigate('/dashboard');
+        } else {
+            toast({
+                title: "CPF ou Senha Incorretos, Tente novamente.",
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+                position: "top"
+            });
+        }
     };
 
     return(
@@ -64,7 +84,7 @@ function Login({ loggedIn }) {
                            backgroundColor='#ffffff' 
                            marginBottom='3vh' 
                            height='56px'
-                           type='number' 
+                           type='text' 
                            value={cpf}
                            onChange={(e) => setCpf(e.target.value)} />
 
@@ -73,6 +93,7 @@ function Login({ loggedIn }) {
                            type='password' 
                            height='56px' 
                            value={password}
+                           autoComplete='new-password'
                            onChange={(e) => setPassword(e.target.value)} />
                 </Box>
 
