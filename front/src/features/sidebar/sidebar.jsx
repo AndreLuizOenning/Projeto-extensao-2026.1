@@ -1,5 +1,5 @@
 import { Box, Flex, Text, VStack, Icon, Button, Avatar } from "@chakra-ui/react"
-import { LuLayoutDashboard, LuWallet, LuFileText, LuChartPie, LuSmile } from "react-icons/lu"
+import { LuLayoutDashboard, LuWallet, LuFileText, LuChartPie, LuSmile, LuPlus } from "react-icons/lu"
 import { useLocation, useNavigate } from "react-router-dom"
 
 function Sidebar({ onLogout }) {
@@ -17,6 +17,10 @@ function Sidebar({ onLogout }) {
     const handleLogout = () => {
         if (onLogout) onLogout();
         navigate('/login');
+    };
+
+    const handleNovaEmpresa = () => {
+        navigate('/patrimonio?novaEmpresa=true');
     };
 
     return (
@@ -69,8 +73,24 @@ function Sidebar({ onLogout }) {
                 </VStack>
             </Box>
 
+
             {/* Logout Button */}
-            <Box px="4">
+            <Box px="4" display="flex" flexDirection="column" gap="3">
+                <Button
+                   w="full"
+                   bg="transparent"
+                   color="#132034"
+                   border="2px solid #132034"
+                   borderRadius="xl"
+                   py="6"
+                   leftIcon={<LuPlus />}
+                   _hover={{ bg: "gray.50" }}
+                   onClick={handleNovaEmpresa}
+                   >
+                    Nova Empresa
+                </Button>
+
+            
                 <Button
                     w="full"
                     bg="#132034"

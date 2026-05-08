@@ -3,6 +3,7 @@ import Login from './pages/login/login'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Autenticar from './features/autenticador/Autenticar'
 import Dashboard from './pages/dashboard/dashboard'
+import Patrimonio from './pages/patrimonio/patrimonio'
 import Sidebar from './features/sidebar/sidebar'
 import { Flex, Box, Text } from '@chakra-ui/react'
 
@@ -33,7 +34,7 @@ function App() {
           <Route path="/home" element={<h1>Home</h1>} />
           <Route path="/login" element={<Login loggedIn={setLoggedIn} />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/patrimonio" element={<Box p="8"><Text color="white">Tela Patrimônio (Em construção)</Text></Box>} />
+          <Route path="/patrimonio" element={<Patrimonio />} />
           <Route path="/lancamentos" element={<Box p="8"><Text color="white">Tela Lançamentos Financeiros (Em construção)</Text></Box>} />
           <Route path="/relatorios" element={<Box p="8"><Text color="white">Tela Relatórios (Em construção)</Text></Box>} />
           <Route path="/assistente" element={<Box p="8"><Text color="white">Assistente IA (Em construção)</Text></Box>} />
