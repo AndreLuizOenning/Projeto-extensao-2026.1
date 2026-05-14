@@ -1,5 +1,5 @@
-import { Box, Flex, Text, VStack, Icon, Button, Avatar } from "@chakra-ui/react"
-import { LuLayoutDashboard, LuWallet, LuFileText, LuChartPie, LuSmile, LuPlus } from "react-icons/lu"
+import { Box, Flex, Text, VStack, Icon, Button } from "@chakra-ui/react"
+import { LuLayoutDashboard, LuWallet, LuFileText, LuChartPie, LuSmile, LuPlus, LuBuilding2, LuBriefcase } from "react-icons/lu"
 import { useLocation, useNavigate } from "react-router-dom"
 
 function Sidebar({ onLogout }) {
@@ -8,9 +8,11 @@ function Sidebar({ onLogout }) {
 
     const navItems = [
         { name: 'Dashboard', icon: LuLayoutDashboard, path: '/dashboard' },
-        { name: 'Patrimonio', icon: LuWallet, path: '/patrimonio' },
+        { name: 'Patrimônio', icon: LuWallet, path: '/patrimonio' },
         { name: 'Lançamentos financeiros', icon: LuFileText, path: '/lancamentos' },
         { name: 'Relatórios', icon: LuChartPie, path: '/relatorios' },
+        { name: 'Entidades', icon: LuBuilding2, path: '/entidades' },
+        { name: 'Empresas', icon: LuBriefcase, path: '/empresas' },
         { name: 'Assistente IA', icon: LuSmile, path: '/assistente' },
     ];
 
@@ -19,13 +21,10 @@ function Sidebar({ onLogout }) {
         navigate('/login');
     };
 
-    const handleNovaEmpresa = () => {
-        navigate('/patrimonio?novaEmpresa=true');
-    };
-
     return (
         <Flex
-            w="280px"
+            w="260px"
+            minW="260px"
             h="100vh"
             bg="white"
             flexDirection="column"
@@ -35,19 +34,17 @@ function Sidebar({ onLogout }) {
             px="4"
         >
             <Box>
-                {/* User Profile */}
-                <Flex alignItems="center" mb="12" px="4">
+                <Flex alignItems="center" mb="10" px="4">
                     <Box>
-                        <Text fontWeight="bold" fontSize="lg" color="#132034">Renato Gaidzinski</Text>
+                        <Text fontWeight="bold" fontSize="md" color="#132034">Renato Gaidzinski</Text>
                         <Text fontSize="sm" color="gray.400">Gerente</Text>
                     </Box>
                     <Box ml="auto" color="gray.400" cursor="pointer">
-                        <Text fontSize="xl">...</Text>
+                        <Text fontSize="xl">···</Text>
                     </Box>
                 </Flex>
 
-                {/* Navigation Menu */}
-                <VStack align="stretch" spacing="4">
+                <VStack align="stretch" spacing="2">
                     {navItems.map((item) => {
                         const isActive = location.pathname === item.path;
                         return (
@@ -63,8 +60,8 @@ function Sidebar({ onLogout }) {
                                 _hover={{ bg: isActive ? "#132034" : "gray.100" }}
                                 onClick={() => navigate(item.path)}
                             >
-                                <Icon as={item.icon} boxSize="5" mr="4" />
-                                <Text fontWeight={isActive ? "semibold" : "medium"}>
+                                <Icon as={item.icon} boxSize="5" mr="3" />
+                                <Text fontWeight={isActive ? "semibold" : "medium"} fontSize="sm">
                                     {item.name}
                                 </Text>
                             </Flex>
@@ -73,24 +70,21 @@ function Sidebar({ onLogout }) {
                 </VStack>
             </Box>
 
-
-            {/* Logout Button */}
             <Box px="4" display="flex" flexDirection="column" gap="3">
                 <Button
-                   w="full"
-                   bg="transparent"
-                   color="#132034"
-                   border="2px solid #132034"
-                   borderRadius="xl"
-                   py="6"
-                   leftIcon={<LuPlus />}
-                   _hover={{ bg: "gray.50" }}
-                   onClick={handleNovaEmpresa}
-                   >
+                    w="full"
+                    bg="transparent"
+                    color="#132034"
+                    border="2px solid #132034"
+                    borderRadius="xl"
+                    py="6"
+                    leftIcon={<LuPlus />}
+                    _hover={{ bg: "gray.50" }}
+                    onClick={() => navigate('/patrimonio?novaEmpresa=true')}
+                >
                     Nova Empresa
                 </Button>
 
-            
                 <Button
                     w="full"
                     bg="#132034"
