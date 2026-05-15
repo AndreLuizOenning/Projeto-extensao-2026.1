@@ -11,6 +11,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useApp } from '../../context/AppContext';
 import { formatCurrency, monthlyAgg } from '../../utils/format';
 import { maskCNPJ, maskCEP, validateCNPJ, validateCEP } from '../../utils/validators';
+import { isAuthenticated } from '../../utils/session';
 
 function EmpresaCard({ nome, total }) {
     return (
@@ -159,9 +160,9 @@ export function EmpresaModal({ isOpen, onClose, onSave, initialData }) {
 
 function Patrimonio() {
     const isLoggedIn = isAuthenticated();
+    const { state, dispatch } = useApp();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [searchParams, setSearchParams] = useSearchParams();
-    const { state, dispatch } = useApp();
     const { empresas, contasAReceber } = state;
 
     useEffect(() => {
