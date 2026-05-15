@@ -11,7 +11,7 @@ export function mapContaBancariaFromApi(conta = {}) {
     empresaId: conta.empresa_id ?? '',
     bancoId: conta.banco_id ?? '',
     agencia: conta.agencia || '',
-    conta: conta.conta || '',
+    conta: conta.numero_conta || '',
     digito: conta.digito || '',
     pix: conta.pix || '',
     tipoConta: conta.tipo_conta || 'CORRENTE',

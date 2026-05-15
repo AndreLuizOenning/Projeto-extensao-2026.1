@@ -26,5 +26,22 @@ export function clearSession() {
 }
 
 export function isAuthenticated() {
-  return Boolean(getToken() && getUser());
+  const token = getToken();
+  const user = getUser();
+  if (!token || !user) return false;
+
+  try {
+    // Decodifica o payload do JWT (base64url) para verificar expiração sem biblioteca externa
+    const base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(atob(base64Payload));
+    if (payload.exp && Date.now() / 1000 >= payload.exp) {
+      clearSession();
+      return false;
+    }
+    return true;
+  } catch {
+    // Token malformado — limpa a sessão por segurança
+    clearSession();
+    return false;
+  }
 }

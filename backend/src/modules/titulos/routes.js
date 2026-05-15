@@ -212,6 +212,7 @@ router.post('/:id/cancelar', asyncHandler(async (req, res) => {
   const row = await db.transaction(async trx => {
     const current = await trx('titulos_financeiros').where({ id: req.params.id }).first();
     if (!current) throw new AppError('Título não encontrado.', 404);
+    if (current.cancelado) throw new AppError('Título já está cancelado.', 422);
 
     const [updated] = await trx('titulos_financeiros').where({ id: req.params.id }).update({ cancelado: true, status: 'CANCELADO', updated_at: trx.fn.now() }).returning('*');
 

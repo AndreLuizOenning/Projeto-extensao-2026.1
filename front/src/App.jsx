@@ -36,6 +36,7 @@ function App() {
 
       <Box flex="1" overflowY="auto" bg={isLogged && !isLoginPage ? '#132034' : 'white'}>
         <Routes>
+          <Route path="/" element={<Autenticar caminho="/dashboard" />} />
           <Route path="*" element={<Autenticar caminho="/dashboard" />} />
           <Route path="/login" element={<Login loggedIn={setLoggedIn} />} />
           <Route path="/dashboard" element={<Dashboard />} />

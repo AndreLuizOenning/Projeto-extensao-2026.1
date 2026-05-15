@@ -36,23 +36,32 @@ function Sidebar({ onLogout }) {
             h="100vh"
             bg="white"
             flexDirection="column"
-            justifyContent="space-between"
             borderRight="2px solid #E2E8F0"
             py="8"
             px="4"
         >
-            <Box>
-                <Flex alignItems="center" mb="10" px="4">
-                    <Box>
-                        <Text fontWeight="bold" fontSize="md" color="#132034">{user?.nome || 'Usuário'}</Text>
-                        <Text fontSize="sm" color="gray.400">{user?.role || 'Perfil'}</Text>
-                    </Box>
-                    <Box ml="auto" color="gray.400" cursor="pointer">
-                        <Text fontSize="xl">···</Text>
-                    </Box>
-                </Flex>
+            {/* Perfil — fixo no topo */}
+            <Flex alignItems="center" mb="6" px="4" flexShrink={0}>
+                <Box>
+                    <Text fontWeight="bold" fontSize="md" color="#132034">
+                        Renato Gaidzinski
+                    </Text>
+                    <Text fontSize="sm" color="gray.400">{user?.role || 'ADMIN'}</Text>
+                </Box>
+                <Box ml="auto" color="gray.400" cursor="pointer">
+                    <Text fontSize="xl">···</Text>
+                </Box>
+            </Flex>
 
-                <VStack align="stretch" spacing="2">
+            {/* Itens de navegação — área rolável */}
+            <Box flex="1" overflowY="auto" mb="4"
+                sx={{
+                    '&::-webkit-scrollbar': { width: '4px' },
+                    '&::-webkit-scrollbar-track': { background: 'transparent' },
+                    '&::-webkit-scrollbar-thumb': { background: '#CBD5E0', borderRadius: '4px' },
+                }}
+            >
+                <VStack align="stretch" spacing="1">
                     {navItems.map((item) => {
                         const isActive = location.pathname === item.path;
                         return (
@@ -78,7 +87,8 @@ function Sidebar({ onLogout }) {
                 </VStack>
             </Box>
 
-            <Box px="4" display="flex" flexDirection="column" gap="3">
+            {/* Botões — fixos no rodapé, sempre visíveis */}
+            <Box px="4" display="flex" flexDirection="column" gap="3" flexShrink={0}>
                 <Button
                     w="full"
                     bg="transparent"

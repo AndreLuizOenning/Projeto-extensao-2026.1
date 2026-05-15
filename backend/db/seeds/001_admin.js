@@ -11,5 +11,5 @@ export async function seed(knex) {
   }
 
   const password_hash = await bcrypt.hash(adminPassword, 10);
-  await knex('users').insert({ nome: 'Administrador', cpf, email: 'admin@holding.local', password_hash, role: 'ADMIN' });
+  await knex('users').insert({ nome: 'Renato Gaidzinski', cpf, email: 'admin@holding.local', password_hash, role: 'ADMIN' });
 }
