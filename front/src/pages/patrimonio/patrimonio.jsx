@@ -4,7 +4,7 @@ import {
     Modal, ModalOverlay, ModalContent, ModalHeader,
     ModalBody, ModalCloseButton, useDisclosure,
     Input, Textarea, FormControl, FormLabel, FormErrorMessage,
-    Grid, GridItem, useToast
+    Grid, GridItem
 } from '@chakra-ui/react';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -30,8 +30,7 @@ export function EmpresaModal({ isOpen, onClose, onSave, initialData }) {
     };
     const [form, setForm] = useState(initialData || emptyForm);
     const [errors, setErrors] = useState({});
-    const toast = useToast();
-
+    
     useEffect(() => {
         setForm(initialData || emptyForm);
         setErrors({});
@@ -49,6 +48,7 @@ export function EmpresaModal({ isOpen, onClose, onSave, initialData }) {
     function validate() {
         const errs = {};
         if (!form.nome.trim()) errs.nome = 'Nome é obrigatório.';
+        if (!form.razaoSocial?.trim()) errs.razaoSocial = 'Razão social é obrigatória.';
         if (!form.cnpj.trim()) {
             errs.cnpj = 'CNPJ é obrigatório.';
         } else if (!validateCNPJ(form.cnpj)) {
@@ -59,12 +59,15 @@ export function EmpresaModal({ isOpen, onClose, onSave, initialData }) {
         return errs;
     }
 
-    function handleSalvar() {
+    async function handleSalvar() {
         const errs = validate();
         if (Object.keys(errs).length > 0) { setErrors(errs); return; }
-        onSave(form);
-        toast({ title: initialData ? 'Empresa atualizada!' : 'Empresa cadastrada!', status: 'success', duration: 3000, isClosable: true, position: 'top' });
-        onClose();
+        try {
+            await onSave(form);
+            if (onClose) onClose();
+        } catch (error) {
+            // Tratamento exibido pela tela chamadora para manter modal aberto em caso de falha.
+        }
     }
 
     const focus = { borderColor: '#132034', boxShadow: '0 0 0 1px #132034' };
@@ -85,9 +88,10 @@ export function EmpresaModal({ isOpen, onClose, onSave, initialData }) {
                             <FormErrorMessage fontSize="xs">{errors.nome}</FormErrorMessage>
                         </FormControl>
 
-                        <FormControl>
+                        <FormControl isRequired isInvalid={!!errors.razaoSocial}>
                             <FormLabel fontSize="sm" color="#132034" fontWeight="semibold">Razão Social</FormLabel>
                             <Input name="razaoSocial" value={form.razaoSocial} onChange={handleChange} borderRadius="lg" borderColor="gray.200" _focus={focus} />
+                            <FormErrorMessage fontSize="xs">{errors.razaoSocial}</FormErrorMessage>
                         </FormControl>
 
                         <Grid templateColumns="1fr 1fr" gap="4">
@@ -154,7 +158,7 @@ export function EmpresaModal({ isOpen, onClose, onSave, initialData }) {
 }
 
 function Patrimonio() {
-    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+    const isLoggedIn = isAuthenticated();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [searchParams, setSearchParams] = useSearchParams();
     const { state, dispatch } = useApp();

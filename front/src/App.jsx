@@ -8,19 +8,23 @@ import Lancamentos from './pages/lancamentos/lancamentos'
 import Relatorios from './pages/relatorios/relatorios'
 import Entidades from './pages/entidades/entidades'
 import Empresas from './pages/empresas/empresas'
+import Bancos from './pages/bancos/bancos'
+import ContasBancarias from './pages/contas-bancarias/contas-bancarias'
+import CategoriasFinanceiras from './pages/categorias-financeiras/categorias-financeiras'
+import CentrosCusto from './pages/centros-custo/centros-custo'
 import Sidebar from './features/sidebar/sidebar'
 import { Flex, Box } from '@chakra-ui/react'
+import { isAuthenticated } from './utils/session'
 
 function App() {
-  const [isLogged, setIsLogged] = useState(localStorage.getItem('loggedIn') === 'true');
+  const [isLogged, setIsLogged] = useState(isAuthenticated());
   const location = useLocation();
 
   useEffect(() => {
-    setIsLogged(localStorage.getItem('loggedIn') === 'true');
+    setIsLogged(isAuthenticated());
   }, [location.pathname]);
 
   function setLoggedIn(value) {
-    localStorage.setItem('loggedIn', value);
     setIsLogged(value === true || value === 'true');
   }
 
@@ -40,6 +44,10 @@ function App() {
           <Route path="/relatorios" element={<Relatorios />} />
           <Route path="/entidades" element={<Entidades />} />
           <Route path="/empresas" element={<Empresas />} />
+          <Route path="/bancos" element={<Bancos />} />
+          <Route path="/contas-bancarias" element={<ContasBancarias />} />
+          <Route path="/categorias-financeiras" element={<CategoriasFinanceiras />} />
+          <Route path="/centros-custo" element={<CentrosCusto />} />
         </Routes>
       </Box>
     </Flex>

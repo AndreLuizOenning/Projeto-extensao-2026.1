@@ -2,11 +2,14 @@ import { Box, Text, Input, Button, useToast, FormControl, FormErrorMessage } fro
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { maskCPF, validateCPF } from '../../utils/validators';
+import { login } from '../../services/auth.service';
+import { setSession } from '../../utils/session';
 
 function Login({ loggedIn }) {
     const [cpf, setCpf] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -27,7 +30,7 @@ function Login({ loggedIn }) {
         return newErrors;
     }
 
-    const handleClick = () => {
+    const handleClick = async () => {
         const errs = validate();
         if (Object.keys(errs).length > 0) {
             setErrors(errs);
@@ -35,12 +38,25 @@ function Login({ loggedIn }) {
         }
 
         const cleanCpf = cpf.replace(/\D/g, '');
-        if (cleanCpf === '57035040900' && password === '123') {
+        setIsLoading(true);
+
+        try {
+            const data = await login({ cpf: cleanCpf, senha: password });
+            setSession({ token: data.token, user: data.user });
             toast({ title: 'Bem-vindo!', status: 'success', duration: 3000, isClosable: true, position: 'top' });
             loggedIn(true);
             navigate('/dashboard');
-        } else {
-            toast({ title: 'CPF ou senha incorretos. Tente novamente.', status: 'error', duration: 4000, isClosable: true, position: 'top' });
+        } catch (error) {
+            const invalidCredentials = error?.status === 401;
+            toast({
+                title: invalidCredentials ? 'CPF ou senha inválidos.' : 'Não foi possível fazer login. Tente novamente.',
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+                position: 'top'
+            });
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -99,7 +115,7 @@ function Login({ loggedIn }) {
                     <Text textAlign='center' textColor="#ffffff" lineHeight='1.2' marginBottom='2vh' fontSize='10' fontWeight='semibold'>
                         Ao entrar você está concordando com os termos de uso
                     </Text>
-                    <Button backgroundColor='#61B4DD' width='220px' height='48px' onClick={handleClick}>
+                    <Button backgroundColor='#61B4DD' width='220px' height='48px' onClick={handleClick} isLoading={isLoading} loadingText='Entrando...'>
                         Entrar
                     </Button>
                 </Box>

@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { LuEllipsisVertical, LuFileText, LuDownload, LuPrinter } from 'react-icons/lu';
 import { Navigate } from 'react-router-dom';
+import { isAuthenticated } from '../../utils/session';
 import { useApp } from '../../context/AppContext';
 import { formatDate, formatCurrency } from '../../utils/format';
 
@@ -158,7 +159,7 @@ function ReportModal({ isOpen, onClose, empresa, receber, pagar }) {
 }
 
 function Relatorios() {
-    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+    const isLoggedIn = isAuthenticated();
     const { state } = useApp();
     const { empresas, contasAPagar, contasAReceber } = state;
 

@@ -1,6 +1,7 @@
 import { Box, Flex, Text, VStack, Icon, Button } from "@chakra-ui/react"
-import { LuLayoutDashboard, LuWallet, LuFileText, LuChartPie, LuSmile, LuPlus, LuBuilding2, LuBriefcase } from "react-icons/lu"
+import { LuLayoutDashboard, LuWallet, LuFileText, LuChartPie, LuSmile, LuPlus, LuBuilding2, LuBriefcase, LuLandmark, LuCreditCard, LuTag, LuFolders } from "react-icons/lu"
 import { useLocation, useNavigate } from "react-router-dom"
+import { clearSession, getUser } from '../../utils/session';
 
 function Sidebar({ onLogout }) {
     const location = useLocation();
@@ -13,10 +14,17 @@ function Sidebar({ onLogout }) {
         { name: 'Relatórios', icon: LuChartPie, path: '/relatorios' },
         { name: 'Entidades', icon: LuBuilding2, path: '/entidades' },
         { name: 'Empresas', icon: LuBriefcase, path: '/empresas' },
+        { name: 'Bancos', icon: LuLandmark, path: '/bancos' },
+        { name: 'Contas Bancárias', icon: LuCreditCard, path: '/contas-bancarias' },
+        { name: 'Categorias Financeiras', icon: LuTag, path: '/categorias-financeiras' },
+        { name: 'Centros de Custo', icon: LuFolders, path: '/centros-custo' },
         { name: 'Assistente IA', icon: LuSmile, path: '/assistente' },
     ];
 
+    const user = getUser();
+
     const handleLogout = () => {
+        clearSession();
         if (onLogout) onLogout();
         navigate('/login');
     };
@@ -36,8 +44,8 @@ function Sidebar({ onLogout }) {
             <Box>
                 <Flex alignItems="center" mb="10" px="4">
                     <Box>
-                        <Text fontWeight="bold" fontSize="md" color="#132034">Renato Gaidzinski</Text>
-                        <Text fontSize="sm" color="gray.400">Gerente</Text>
+                        <Text fontWeight="bold" fontSize="md" color="#132034">{user?.nome || 'Usuário'}</Text>
+                        <Text fontSize="sm" color="gray.400">{user?.role || 'Perfil'}</Text>
                     </Box>
                     <Box ml="auto" color="gray.400" cursor="pointer">
                         <Text fontSize="xl">···</Text>

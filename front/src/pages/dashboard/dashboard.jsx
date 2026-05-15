@@ -1,5 +1,6 @@
 import { Box, Flex, Text, SimpleGrid, Badge, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
+import { isAuthenticated } from '../../utils/session';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { LuArrowUpRight, LuArrowDownRight } from "react-icons/lu";
 import { useApp } from '../../context/AppContext';
@@ -28,7 +29,7 @@ function StatCard({ title, value, percentage, isPositive }) {
 }
 
 function Dashboard() {
-    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+    const isLoggedIn = isAuthenticated();
     const { state } = useApp();
     const { contasAPagar, contasAReceber, empresas } = state;
 
