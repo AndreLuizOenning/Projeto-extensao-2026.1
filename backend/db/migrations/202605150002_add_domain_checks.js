@@ -14,7 +14,7 @@ export async function up(knex) {
   });
 
   await knex.schema.alterTable('categorias_financeiras', t => {
-    t.check("tipo in ('PAGAR','RECEBER')", undefined, 'categorias_tipo_check');
+    t.check("tipo in ('DESPESA','RECEITA')", undefined, 'categorias_tipo_check');
   });
 
   await knex.schema.alterTable('contas_bancarias', t => {

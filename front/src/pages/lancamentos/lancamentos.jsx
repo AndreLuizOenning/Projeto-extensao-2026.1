@@ -105,7 +105,7 @@ function Lancamentos() {
 
   async function handleSave(form) { try { if (editItem) await atualizarTitulo(editItem.id, form); else await criarTitulo(form); await carregarDados(); toast({ title: editItem ? 'Título atualizado!' : 'Título cadastrado!', status: 'success', duration: 2000, position: 'top' }); } catch (e) { toast({ title: 'Erro ao salvar título', description: getApiErrorMessage(e), status: 'error' }); } }
   function handleEdit(item) { if (item.status === 'CANCELADO') return; setEditItem({ ...item, empresaId: String(item.empresaId || ''), entidadeId: String(item.entidadeId || ''), categoriaId: String(item.categoriaId || ''), centroCustoId: String(item.centroCustoId || ''), contaBancariaId: String(item.contaBancariaId || ''), valorOriginal: String(item.valorOriginal || '') }); onOpen(); }
-  function handleOpenAdd() { setEditItem({ ...EMPTY_FORM, tipo: tab }); onOpen(); }
+  function handleOpenAdd() { setEditItem(null); onOpen(); }
   function handleCancelClick(item) { if (item.status === 'CANCELADO') return; setCancelTarget(item); onConfirmOpen(); }
   function handleBaixaClick(item) {
     if (['CANCELADO', 'PAGO', 'RECEBIDO'].includes(item.status)) return;
