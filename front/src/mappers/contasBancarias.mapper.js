@@ -28,7 +28,7 @@ export function mapContaBancariaToApi(form = {}) {
     empresa_id: form.empresaId ? Number(form.empresaId) : undefined,
     banco_id: form.bancoId ? Number(form.bancoId) : undefined,
     agencia: form.agencia?.trim(),
-    conta: form.conta?.trim(),
+    numero_conta: form.conta?.trim(),
     digito: form.digito?.trim(),
     pix: form.pix?.trim(),
     tipo_conta: form.tipoConta,
