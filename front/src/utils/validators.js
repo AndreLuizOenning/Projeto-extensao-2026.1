@@ -32,34 +32,12 @@ export function maskPhone(value) {
 
 export function validateCPF(cpf) {
   const c = cpf.replace(/\D/g, '');
-  if (c.length !== 11 || /^(\d)\1+$/.test(c)) return false;
-
-  const calc = (len) => {
-    let sum = 0;
-    for (let i = 0; i < len; i++) sum += parseInt(c[i]) * (len + 1 - i);
-    const r = (sum * 10) % 11;
-    return r === 10 || r === 11 ? 0 : r;
-  };
-
-  return calc(9) === parseInt(c[9]) && calc(10) === parseInt(c[10]);
+  return c.length === 11;
 }
 
 export function validateCNPJ(cnpj) {
   const c = cnpj.replace(/\D/g, '');
-  if (c.length !== 14 || /^(\d)\1+$/.test(c)) return false;
-
-  const calc = (len) => {
-    let sum = 0;
-    let pos = len - 7;
-    for (let i = len; i >= 1; i--) {
-      sum += parseInt(c[len - i]) * pos--;
-      if (pos < 2) pos = 9;
-    }
-    const r = sum % 11;
-    return r < 2 ? 0 : 11 - r;
-  };
-
-  return calc(12) === parseInt(c[12]) && calc(13) === parseInt(c[13]);
+  return c.length === 14;
 }
 
 export function validateCNPJorCPF(value) {

@@ -138,7 +138,7 @@ function ContaModal({ isOpen, onClose, onSave, initialData, empresas, bancos }) 
             </Grid>
 
             <Grid templateColumns="repeat(2, 1fr)" gap="3">
-              <FormControl><FormLabel>Dígito</FormLabel><Input name="digito" value={form.digito} onChange={handleChange} /></FormControl>
+              <FormControl><FormLabel>Dígito</FormLabel><Input name="digito" value={form.digito} onChange={handleChange} maxLength={20} /></FormControl>
               <FormControl><FormLabel>PIX</FormLabel><Input name="pix" value={form.pix} onChange={handleChange} /></FormControl>
             </Grid>
 
