@@ -18,7 +18,7 @@ function Sidebar({ onLogout }) {
         { name: 'Contas Bancárias', icon: LuCreditCard, path: '/contas-bancarias' },
         { name: 'Categorias Financeiras', icon: LuTag, path: '/categorias-financeiras' },
         { name: 'Centros de Custo', icon: LuFolders, path: '/centros-custo' },
-        { name: 'Assistente IA', icon: LuSmile, path: '/assistente' },
+        { name: 'Assistente IA', icon: LuSmile, path: '/assistente-ia' },
     ];
 
     const user = getUser();

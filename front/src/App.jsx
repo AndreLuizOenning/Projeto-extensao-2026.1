@@ -13,6 +13,7 @@ import ContasBancarias from './pages/contas-bancarias/contas-bancarias'
 import CategoriasFinanceiras from './pages/categorias-financeiras/categorias-financeiras'
 import CentrosCusto from './pages/centros-custo/centros-custo'
 import Sidebar from './features/sidebar/sidebar'
+import AssistenteIA from './pages/assistente-ia/AssistenteIA';
 import { Flex, Box } from '@chakra-ui/react'
 import { isAuthenticated } from './utils/session'
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/contas-bancarias" element={<ContasBancarias />} />
           <Route path="/categorias-financeiras" element={<CategoriasFinanceiras />} />
           <Route path="/centros-custo" element={<CentrosCusto />} />
+          <Route path="/assistente-ia" element={<AssistenteIA />} />
         </Routes>
       </Box>
     </Flex>

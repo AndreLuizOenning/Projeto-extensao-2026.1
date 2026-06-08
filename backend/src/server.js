@@ -9,8 +9,10 @@ import categoriasRoutes from './modules/categorias/routes.js';
 import centrosRoutes from './modules/centros-custo/routes.js';
 import titulosRoutes from './modules/titulos/routes.js';
 import conciliacaoRoutes from './modules/conciliacao/routes.js';
+import iaRoutes from './modules/ia/routes.js';
 import { ensureAuth } from './middlewares/auth.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+
 
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
   throw new Error('JWT_SECRET ausente ou fraco. Defina JWT_SECRET com pelo menos 32 caracteres.');
@@ -73,6 +75,7 @@ app.use('/categorias-financeiras', categoriasRoutes);
 app.use('/centros-custo', centrosRoutes);
 app.use('/titulos', titulosRoutes);
 app.use('/conciliacoes', conciliacaoRoutes);
+app.use('/ia', iaRoutes);
 
 app.use(errorHandler);
 
