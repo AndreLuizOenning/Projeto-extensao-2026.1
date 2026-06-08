@@ -3,10 +3,23 @@ import {
     Box, Flex, Text, SimpleGrid, Button,
     Modal, ModalOverlay, ModalContent, ModalHeader,
     ModalBody, ModalCloseButton, useDisclosure, useToast,
-    Input, Textarea, FormControl, FormLabel, FormErrorMessage,
+    Input, Textarea, Select, FormControl, FormLabel, FormErrorMessage,
     Grid, GridItem, Spinner,
 } from '@chakra-ui/react';
 import { Navigate, useSearchParams } from 'react-router-dom';
+
+const ESTADOS_BR = [
+    { uf: 'AC', nome: 'Acre' }, { uf: 'AL', nome: 'Alagoas' }, { uf: 'AP', nome: 'Amapá' },
+    { uf: 'AM', nome: 'Amazonas' }, { uf: 'BA', nome: 'Bahia' }, { uf: 'CE', nome: 'Ceará' },
+    { uf: 'DF', nome: 'Distrito Federal' }, { uf: 'ES', nome: 'Espírito Santo' }, { uf: 'GO', nome: 'Goiás' },
+    { uf: 'MA', nome: 'Maranhão' }, { uf: 'MT', nome: 'Mato Grosso' }, { uf: 'MS', nome: 'Mato Grosso do Sul' },
+    { uf: 'MG', nome: 'Minas Gerais' }, { uf: 'PA', nome: 'Pará' }, { uf: 'PB', nome: 'Paraíba' },
+    { uf: 'PR', nome: 'Paraná' }, { uf: 'PE', nome: 'Pernambuco' }, { uf: 'PI', nome: 'Piauí' },
+    { uf: 'RJ', nome: 'Rio de Janeiro' }, { uf: 'RN', nome: 'Rio Grande do Norte' },
+    { uf: 'RS', nome: 'Rio Grande do Sul' }, { uf: 'RO', nome: 'Rondônia' }, { uf: 'RR', nome: 'Roraima' },
+    { uf: 'SC', nome: 'Santa Catarina' }, { uf: 'SP', nome: 'São Paulo' }, { uf: 'SE', nome: 'Sergipe' },
+    { uf: 'TO', nome: 'Tocantins' },
+];
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { formatCurrency } from '../../utils/format';
 import { maskCNPJ, maskCEP, validateCNPJ, validateCEP } from '../../utils/validators';
@@ -126,7 +139,11 @@ export function EmpresaModal({ isOpen, onClose, onSave, initialData }) {
                             <GridItem>
                                 <FormControl>
                                     <FormLabel fontSize="sm" color="#132034" fontWeight="semibold">Estado</FormLabel>
-                                    <Input name="estado" value={form.estado} onChange={handleChange} placeholder="SC" borderRadius="lg" borderColor="gray.200" _focus={focus} />
+                                    <Select name="estado" value={form.estado} onChange={handleChange} placeholder="Selecione..." borderRadius="lg" borderColor="gray.200" _focus={focus}>
+                                        {ESTADOS_BR.map((e) => (
+                                            <option key={e.uf} value={e.uf}>{e.uf} — {e.nome}</option>
+                                        ))}
+                                    </Select>
                                 </FormControl>
                             </GridItem>
                             <GridItem>
