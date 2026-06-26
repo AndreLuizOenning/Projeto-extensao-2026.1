@@ -3,9 +3,7 @@ import OpenAI from 'openai';
 
 const router = Router();
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let client = null;
 
 router.post('/chat', async (req, res, next) => {
   try {
@@ -18,7 +16,7 @@ router.post('/chat', async (req, res, next) => {
     if (!process.env.OPENAI_API_KEY) {
       return res.status(500).json({ message: 'OPENAI_API_KEY não configurada no backend.' });
     }
-
+    if (!client) client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const response = await client.responses.create({
       model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
       input: [

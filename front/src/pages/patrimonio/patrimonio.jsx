@@ -211,6 +211,7 @@ function Patrimonio() {
     const [empresas, setEmpresas] = useState([]);
     const [titulos, setTitulos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [anoSelecionado, setAnoSelecionado] = useState(new Date().getFullYear());
     const [error, setError] = useState('');
     const toast = useToast();
 
@@ -259,7 +260,7 @@ function Patrimonio() {
     });
 
     const totalArrecadado = Object.values(totaisPorEmpresa).reduce((a, v) => a + v, 0);
-    const faturamentoGeral = buildMonthlyData(titulos);
+    const faturamentoGeral = buildMonthlyData(titulos, anoSelecionado);
 
     return (
         <Box p="8" w="100%">
@@ -284,6 +285,24 @@ function Patrimonio() {
                             </Text>
                         </Box>
                     </SimpleGrid>
+
+                    <Flex justify="flex-end" mb="3">
+                      <Select
+                        value={anoSelecionado}
+                        onChange={(e) => setAnoSelecionado(Number(e.target.value))}
+                        w="120px"
+                        size="sm"
+                        borderRadius="lg"
+                        bg="white"
+                      >
+                        {Array.from({ length: 28 }, (_, i) => 2000 + i).map(ano => (
+                            <option key={ano} value={ano}>{ano}</option>
+                        ))}
+                      </Select>
+                      
+                    </Flex>
+
+                    
 
                     <Box bg="#132034" p="6" borderRadius="xl" boxShadow="sm" mb="8" h="360px">
                         <Flex justifyContent="space-between" alignItems="center" mb="6">
@@ -311,7 +330,7 @@ function Patrimonio() {
                                 <Box key={emp.id} bg="#132034" p="6" borderRadius="xl" boxShadow="sm" h="280px">
                                     <Text fontSize="md" fontWeight="bold" color="white" mb="4">{emp.nome}</Text>
                                     <ResponsiveContainer width="100%" height="85%">
-                                        <BarChart data={buildMonthlyByEmpresa(titulos, emp.id)} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+                                        <BarChart data={buildMonthlyByEmpresa(titulos, emp.id, anoSelecionado)} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
                                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
                                             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 11 }} dy={8} />
                                             <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 11 }} />

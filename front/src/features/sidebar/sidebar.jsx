@@ -9,7 +9,7 @@ function Sidebar({ onLogout }) {
 
     const navItems = [
         { name: 'Dashboard', icon: LuLayoutDashboard, path: '/dashboard' },
-        { name: 'Patrimônio', icon: LuWallet, path: '/patrimonio' },
+        { name: 'Fluxo de Caixa', icon: LuWallet, path: '/patrimonio' },
         { name: 'Lançamentos financeiros', icon: LuFileText, path: '/lancamentos' },
         { name: 'Relatórios', icon: LuChartPie, path: '/relatorios' },
         { name: 'Entidades', icon: LuBuilding2, path: '/entidades' },
