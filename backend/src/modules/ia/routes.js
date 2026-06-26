@@ -4,9 +4,7 @@ import db from '../../config/db.js';
 
 const router = Router();
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let client = null;
 
 function formatarMoeda(valor) {
   return Number(valor || 0).toLocaleString('pt-BR', {
@@ -17,30 +15,11 @@ function formatarMoeda(valor) {
 
 async function montarContextoFinanceiro() {
   const empresas = await db('empresas')
-    .select(
-      'id',
-      'nome',
-      'razao_social',
-      'cnpj',
-      'categoria',
-      'cidade',
-      'estado',
-      'status',
-      'ativo'
-    )
+    .select('id', 'nome', 'razao_social', 'cnpj', 'categoria', 'cidade', 'estado', 'status', 'ativo')
     .orderBy('nome');
 
   const entidades = await db('entidades')
-    .select(
-      'id',
-      'empresa_id',
-      'nome',
-      'tipo',
-      'contato',
-      'status',
-      'cnpj_cpf',
-      'ativo'
-    )
+    .select('id', 'empresa_id', 'nome', 'tipo', 'contato', 'status', 'cnpj_cpf', 'ativo')
     .orderBy('nome');
 
   const contasBancarias = await db('contas_bancarias')
@@ -48,8 +27,6 @@ async function montarContextoFinanceiro() {
     .leftJoin('empresas', 'contas_bancarias.empresa_id', 'empresas.id')
     .select(
       'contas_bancarias.id',
-      'contas_bancarias.empresa_id',
-      'contas_bancarias.banco_id',
       'contas_bancarias.agencia',
       'contas_bancarias.numero_conta',
       'contas_bancarias.digito',
@@ -71,10 +48,8 @@ async function montarContextoFinanceiro() {
       'titulos_financeiros.descricao',
       'titulos_financeiros.valor_original',
       'titulos_financeiros.valor_saldo as saldo',
-      'titulos_financeiros.data_emissao',
       'titulos_financeiros.data_vencimento',
       'titulos_financeiros.status',
-      'titulos_financeiros.observacoes',
       'titulos_financeiros.cancelado',
       'empresas.nome as empresa',
       'entidades.nome as entidade',
@@ -153,6 +128,10 @@ router.post('/chat', async (req, res, next) => {
 
     if (!process.env.OPENAI_API_KEY) {
       return res.status(500).json({ message: 'OPENAI_API_KEY não configurada no backend.' });
+    }
+
+    if (!client) {
+      client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     }
 
     const contextoFinanceiro = await montarContextoFinanceiro();

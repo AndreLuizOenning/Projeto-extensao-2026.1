@@ -8,12 +8,14 @@ O **Sistema de Holding Financeira** é uma aplicação completa para gestão fin
 - títulos a pagar e a receber;
 - baixas parciais e totais;
 - atualização automática de saldo bancário;
-- rastreabilidade básica de alterações.
+- rastreabilidade básica de alterações;
+- assistente financeiro com inteligência artificial.
 
 ---
 
 ## Funcionalidades implementadas
-- Login com autenticação JWT
+- Login com autenticação JWT (CPF + senha)
+- Dashboard com cards e gráficos financeiros
 - Gestão de Empresas
 - Gestão de Entidades
 - Gestão de Bancos
@@ -23,6 +25,9 @@ O **Sistema de Holding Financeira** é uma aplicação completa para gestão fin
 - Gestão de Títulos Financeiros (pagar/receber)
 - Baixa parcial e total de títulos
 - Atualização de saldo bancário por movimentação
+- Fluxo de Caixa com gráficos por empresa e filtro de ano
+- Relatórios financeiros
+- Assistente IA integrado com OpenAI
 - Auditoria básica
 - Controle de status financeiro dos títulos
 
@@ -34,6 +39,7 @@ O **Sistema de Holding Financeira** é uma aplicação completa para gestão fin
 - React
 - Vite
 - Chakra UI
+- Recharts
 
 ### Backend
 - Node.js
@@ -43,57 +49,57 @@ O **Sistema de Holding Financeira** é uma aplicação completa para gestão fin
 - JWT
 - Zod
 - bcrypt
+- OpenAI API
 
 ---
 
 ## Pré-requisitos
 - Node.js 20+
 - npm
-- PostgreSQL
+- PostgreSQL (ou Docker)
 - Git
-- Docker (opcional)
 
 ---
 
 ## Estrutura do projeto
-```text
+\`\`\`text
 .
 ├── front/                # Aplicação frontend (React + Vite + Chakra UI)
 ├── backend/              # API backend (Node.js + Express + Knex + PostgreSQL)
 └── docker-compose.yml    # Orquestração opcional com Docker
-```
+\`\`\`
 
 ---
 
 ## Configuração do backend
 1. Acesse a pasta do backend:
-   ```bash
+   \`\`\`bash
    cd backend
-   ```
+   \`\`\`
 2. Crie o arquivo de ambiente:
-   ```bash
+   \`\`\`bash
    cp .env.example .env
-   ```
+   \`\`\`
 3. Configure as variáveis no `.env`.
 4. Instale dependências:
-   ```bash
+   \`\`\`bash
    npm install
-   ```
+   \`\`\`
 5. Execute as migrations:
-   ```bash
+   \`\`\`bash
    npm run migrate
-   ```
+   \`\`\`
 6. Execute o seed:
-   ```bash
+   \`\`\`bash
    npm run seed
-   ```
+   \`\`\`
 7. Inicie em modo desenvolvimento:
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 ### Exemplo de `backend/.env`
-```env
+\`\`\`env
 PORT=3000
 DB_HOST=127.0.0.1
 DB_PORT=5432
@@ -103,39 +109,41 @@ DB_PASSWORD=postgres
 JWT_SECRET=uma_chave_com_mais_de_32_caracteres_para_dev
 ADMIN_INITIAL_PASSWORD=admin123
 CORS_ORIGIN=http://localhost:5173
-```
+OPENAI_API_KEY=sua_chave_aqui
+OPENAI_MODEL=gpt-4.1-mini
+\`\`\`
 
 ---
 
 ## Configuração do frontend
 1. Acesse a pasta do frontend:
-   ```bash
+   \`\`\`bash
    cd front
-   ```
+   \`\`\`
 2. Crie o arquivo de ambiente:
-   ```bash
+   \`\`\`bash
    cp .env.example .env
-   ```
+   \`\`\`
 3. Configure a URL da API (`VITE_API_URL`).
 4. Instale dependências:
-   ```bash
+   \`\`\`bash
    npm install
-   ```
+   \`\`\`
 5. Inicie em modo desenvolvimento:
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 ### Exemplo de `front/.env`
-```env
+\`\`\`env
 VITE_API_URL=http://localhost:3000
-```
+\`\`\`
 
 ---
 
 ## Usuário inicial
-- O CPF do usuário administrador vem do seed.
-- CPF atual: `57035040900`
+- O login é feito com CPF e senha.
+- CPF do administrador padrão: `57035040900`
 - A senha inicial é lida de `ADMIN_INITIAL_PASSWORD` **no momento em que o seed foi executado**.
 
 > Se você alterar `ADMIN_INITIAL_PASSWORD` depois que o seed já foi executado, a senha do admin **não muda automaticamente**.
@@ -143,13 +151,13 @@ VITE_API_URL=http://localhost:3000
 ---
 
 ## Ordem correta para rodar o sistema
-1. Subir o PostgreSQL
-2. Rodar backend
-3. Rodar migrations
-4. Rodar seed
-5. Subir frontend
-6. Acessar frontend
-7. Fazer login
+1. Subir o PostgreSQL (ou `docker-compose up -d db`)
+2. Rodar migrations
+3. Rodar seed
+4. Subir backend (`npm run dev`)
+5. Subir frontend (`npm run dev`)
+6. Acessar `http://localhost:5173`
+7. Fazer login com CPF e senha
 
 ---
 
@@ -158,12 +166,12 @@ VITE_API_URL=http://localhost:3000
 **POST** `http://localhost:3000/auth/login`
 
 Body JSON:
-```json
+\`\`\`json
 {
   "cpf": "57035040900",
   "senha": "admin123"
 }
-```
+\`\`\`
 
 ---
 
@@ -192,20 +200,13 @@ Body JSON:
 
 ---
 
-## Padrões de branch/commit para equipe
-- `main` protegida (sem commit direto)
-- branches no padrão `feature/nome-da-feature`
-- commits claros e objetivos
-- Pull Request obrigatório para merge
-
----
-
 ## Problemas comuns
 - **Erro de CORS**: conferir `CORS_ORIGIN` no backend e `VITE_API_URL` no frontend.
 - **Erro de JWT_SECRET ausente**: definir `JWT_SECRET` no `backend/.env`.
 - **Erro de senha do PostgreSQL**: validar `DB_USER` e `DB_PASSWORD`.
 - **Erro `ENOTFOUND db`**: geralmente ocorre quando `DB_HOST=db` é usado fora do Docker.
 - **Senha do admin não confere**: seed já foi executado anteriormente com outra senha.
+- **Assistente IA não responde**: verificar se `OPENAI_API_KEY` está configurada no `backend/.env`.
 
 ---
 
@@ -222,26 +223,10 @@ Body JSON:
 
 ---
 
-## Pendências futuras
-- Dashboard real
-- Relatórios reais
-- Histórico detalhado de baixas
-- Conciliação bancária avançada
-- Testes automatizados
-- Permissões granulares
-
----
-
-## Checklist antes de subir para o GitHub
-- [ ] Remover `node_modules`
-- [ ] Garantir `.gitignore` atualizado
-- [ ] Garantir `.env` fora do commit
-- [ ] Commitar `.env.example`
-- [ ] Rodar build do frontend
-- [ ] Rodar validação do backend (`node --check` ou inicialização do servidor)
-- [ ] Conferir README
-
----
-
 ## Docker (opcional)
-Se preferir, use o `docker-compose.yml` para subir os serviços em ambiente containerizado.
+Se preferir, use o `docker-compose.yml` para subir o banco de dados PostgreSQL em ambiente containerizado:
+\`\`\`bash
+docker-compose up -d db
+\`\`\`
+
+---

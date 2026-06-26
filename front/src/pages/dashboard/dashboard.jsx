@@ -33,7 +33,7 @@ function StatCard({ title, value, label, isPositive }) {
           {label}
         </Badge>
       </Flex>
-      <Text fontSize="3xl" fontWeight="bold" color="#132034">{value}</Text>
+      <Text fontSize="xl" fontWeight="bold" color="#132034">{value}</Text>
     </Box>
   );
 }
@@ -142,11 +142,11 @@ function Dashboard() {
           <Text fontSize="lg" fontWeight="bold" color="#132034">Faturamento por mês</Text>
           <Flex gap="4" alignItems="center">
             <Flex alignItems="center" gap="2">
-              <Box w="3" h="3" bg="#132034" borderRadius="sm" />
+              <Box w="3" h="3" bg="#341313" borderRadius="sm" />
               <Text fontSize="sm" color="gray.600">Receitas</Text>
             </Flex>
             <Flex alignItems="center" gap="2">
-              <Box w="3" h="3" bg="#E0E7FF" borderRadius="sm" />
+              <Box w="3" h="3" bg="#94A3B8" borderRadius="sm" />
               <Text fontSize="sm" color="gray.600">Despesas</Text>
             </Flex>
           </Flex>
@@ -158,7 +158,7 @@ function Dashboard() {
             <YAxis axisLine={false} tickLine={false} tick={{ fill: '#A0AEC0', fontSize: 12 }} />
             <Tooltip cursor={{ fill: 'transparent' }} formatter={(v) => formatCurrency(v)} />
             <Bar dataKey="receitas" stackId="a" fill="#132034"  radius={[0, 0, 4, 4]} barSize={40} />
-            <Bar dataKey="despesas" stackId="a" fill="#E0E7FF" radius={[4, 4, 0, 0]} barSize={40} />
+            <Bar dataKey="despesas" stackId="a" fill="#d61500" radius={[4, 4, 0, 0]} barSize={40} />
           </BarChart>
         </ResponsiveContainer>
       </Box>
@@ -184,7 +184,7 @@ function Dashboard() {
                     <Tr key={emp.id}>
                       <Td fontWeight="bold" color="#132034" borderBottom="none">{emp.empresa}</Td>
                       <Td fontWeight="medium" borderBottom="none">
-                        {emp.data !== '-' ? emp.data.split('-').reverse().join('/') : '-'}
+                        {emp.data !== '-' ? new Date(emp.data).toLocaleDateString('pt-BR') : '-'}
                       </Td>
                       <Td fontWeight="bold" borderBottom="none">{formatCurrency(emp.saldo)}</Td>
                       <Td borderBottom="none">

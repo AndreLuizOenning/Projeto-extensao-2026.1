@@ -1,8 +1,7 @@
 export function formatDate(iso) {
   if (!iso) return '-';
   try {
-    const [y, m, d] = iso.split('-');
-    return `${d}/${m}/${y}`;
+    return new Date(iso).toLocaleDateString('pt-BR');
   } catch {
     return iso;
   }
